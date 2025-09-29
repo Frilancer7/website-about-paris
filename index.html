@@ -1,0 +1,450 @@
+<!doctype html>
+
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Париж — презентационный сайт</title>
+
+  <style>
+    /* Apple-like minimal UI — all styles embedded */
+    :root {
+      --bg:#ffffff;
+      --muted:#6b6b6b;
+      --accent:#111;
+      --glass:rgba(255,255,255,0.6);
+      --radius:14px;
+      --gap:20px;
+      --maxw:1200px;
+      --ease:cubic-bezier(.2,.9,.2,1);
+    }
+
+    html, body {
+      height:100%;
+      margin:0;
+      background:var(--bg);
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+      color:var(--accent);
+    }
+
+    a { color:inherit; text-decoration:none }
+
+    .wrap {
+      max-width:var(--maxw);
+      margin:0 auto;
+      padding:36px 20px;
+    }
+
+    /* Header */
+    header {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
+      padding:14px 0;
+    }
+
+    .brand {
+      font-weight:600;
+      font-size:20px;
+      letter-spacing:0.6px;
+    }
+
+    nav {
+      display:flex;
+      gap:18px;
+      align-items:center;
+    }
+
+    nav a {
+      padding:8px 10px;
+      border-radius:10px;
+      color:var(--muted);
+      font-weight:500;
+    }
+
+    nav a.active {
+      color:var(--accent);
+      background:rgba(0,0,0,0.04);
+    }
+
+    /* Hero */
+    .hero {
+      position:relative;
+      border-radius:18px;
+      overflow:hidden;
+      background:#000;
+      color:#fff;
+      margin:18px 0;
+    }
+
+    .hero .media {
+      position:relative;
+      height:56vw;
+      max-height:640px;
+      background:#000;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .hero video {
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .hero img {
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .hero .content {
+      position:relative;
+      z-index:2;
+      padding:48px 36px;
+      max-width:720px;
+    }
+
+    .kicker {
+      font-size:13px;
+      color:rgba(255,255,255,0.85);
+      text-transform:uppercase;
+      letter-spacing:1.2px;
+    }
+
+    .title {
+      font-size:44px;
+      line-height:1.02;
+      margin:8px 0 8px;
+      font-weight:700;
+    }
+
+    .desc {
+      color:rgba(255,255,255,0.9);
+      font-size:16px;
+    }
+
+    .cta {
+      display:inline-block;
+      margin-top:18px;
+      background:#fff;
+      color:#000;
+      padding:12px 18px;
+      border-radius:12px;
+      font-weight:600;
+      box-shadow:0 6px 24px rgba(0,0,0,.12);
+    }
+
+    /* Sections */
+    section {
+      padding:36px 0;
+      border-bottom:1px solid rgba(0,0,0,0.04);
+    }
+
+    h2 {
+      font-size:20px;
+      margin:0 0 10px;
+    }
+
+    p.lead {
+      color:var(--muted);
+      max-width:880px;
+    }
+
+    /* Gallery grid */
+    .grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:14px;
+    }
+
+    .card {
+      background:#fff;
+      border-radius:12px;
+      overflow:hidden;
+      box-shadow:0 8px 30px rgba(0,0,0,.06);
+      cursor:pointer;
+      transition:transform .35s var(--ease);
+    }
+
+    .card img {
+      width:100%;
+      height:220px;
+      object-fit:cover;
+      display:block;
+    }
+
+    .card:hover { transform:translateY(-6px) }
+
+    .caption {
+      padding:12px;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    /* Lightbox */
+    .overlay {
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,0.9);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index:9999;
+    }
+
+    .overlay img {
+      max-width:92%;
+      max-height:86vh;
+      border-radius:10px;
+    }
+
+    .overlay .meta {
+      position:fixed;
+      bottom:28px;
+      color:#fff;
+      font-size:14px;
+    }
+
+    /* History two-column */
+    .cols {
+      display:grid;
+      grid-template-columns:1fr 360px;
+      gap:20px;
+      align-items:start;
+    }
+
+    .cols img {
+      width:100%;
+      border-radius:12px;
+    }
+
+    /* Footer */
+    footer {
+      padding:34px 0;
+      text-align:center;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    /* Responsive */
+    @media (max-width:900px) {
+      .cols { grid-template-columns:1fr }
+      .hero .content { padding:24px }
+      .title { font-size:32px }
+    }
+
+    @media (max-width:520px) {
+      .hero .media { height:46vw }
+      .card img { height:160px }
+    }
+  </style>
+
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">Париж</div>
+      <nav>
+        <a href="#home" data-link class="cta">Главная</a>
+        <a class="cta" href="#history" data-link>История</a>
+        <a class="cta" href="#gallery" data-link>Галерея</a>
+      </nav>
+    </header>
+
+
+<!-- HERO -->
+<section id="home" class="hero">
+  <div class="media">
+    <video id="heroVideo" autoplay muted loop playsinline poster="images/bashna.jpg">
+      <source src="video/istockphoto-621046540-640_adpp_is.mp4" type="video/mp4" />
+      <img src="images/ParisNochy.jpg" alt="Париж">
+    </video>
+    <div class="content">
+      <div class="kicker">Город света</div>
+      <div class="title">Париж — простота и величие</div>
+      <div class="desc">
+        Короткая экскурсия по самым значимым местам: Эйфелева башня, Лувр, Сена и уютные улочки.
+        Красивые фото и плавные видеоролики — сделано аккуратно и минималистично.
+      </div>
+      <a class="cta" href="#gallery" data-link>Посмотреть галерею</a>
+    </div>
+  </div>
+</section>
+
+<!-- HISTORY -->
+<section id="history">
+  <div class="cols">
+    <div>
+      <h2>Краткая история</h2>
+      <p class="lead">
+        Париж вырос из острова на Сене и превратился в мировой центр искусства и архитектуры.
+        Здесь творили художники и строились символы эпох — соборы, музеи и современные памятники.
+      </p>
+
+      <p>
+        Город сочетает строгую геометрию авеню и уютную нерегулярность кварталов Монмартра.
+        Это место, где история живёт в камне и отражается в водах Сены.
+      </p>
+
+      <ul>
+        <li>Античность и римские поселения</li>
+        <li>Средневековье и великие соборы</li>
+        <li>XIX век — мировые выставки и архитектурные преобразования</li>
+      </ul>
+    </div>
+
+    <aside>
+      <img src="images/luvr2.jpg" alt="Лувр" />
+      <div style="margin-top:12px;color:var(--muted);font-size:13px">
+        Лувр — коллекция, ставшая символом
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <h2>Галерея</h2>
+  <p class="lead">
+    Нажми на любую фотографию, чтобы увеличить. Все изображения загружаются локально из папки
+    <code>images/</code>.
+  </p>
+
+  <div class="grid" id="grid">
+    <div class="card" data-src="images/alexandr.jpg" data-caption="Александр">
+      <img src="images/alexandr.jpg" alt="alexandr">
+      <div class="caption">Александр</div>
+    </div>
+    <div class="card" data-src="images/ArkaTriumsha.jpg" data-caption="Арка Триумфа">
+      <img src="images/ArkaTriumsha.jpg" alt="ArkaTriumsha">
+      <div class="caption">Арка Триумфа</div>
+    </div>
+    <div class="card" data-src="images/bashna.jpg" data-caption="Эйфелева башня">
+      <img src="images/bashna.jpg" alt="bashna">
+      <div class="caption">Эйфелева башня</div>
+    </div>
+    <div class="card" data-src="images/bashna_cena.jpg" data-caption="Башня — вечер">
+      <img src="images/bashna_cena.jpg" alt="bashna_cena">
+      <div class="caption">Башня — вечер</div>
+    </div>
+    <div class="card" data-src="images/bashnanochy.jpg" data-caption="Башня ночью">
+      <img src="images/bashnanochy.jpg" alt="bashnanochy">
+      <div class="caption">Башня ночью</div>
+    </div>
+    <div class="card" data-src="images/Le_sacre_coeur.jpg" data-caption="Сакре-Кёр">
+      <img src="images/Le_sacre_coeur.jpg" alt="Le_sacre_coeur">
+      <div class="caption">Сакре-Кёр</div>
+    </div>
+    <div class="card" data-src="images/luvr.jpg" data-caption="Лувр">
+      <img src="images/luvr.jpg" alt="luvr">
+      <div class="caption">Лувр</div>
+    </div>
+    <div class="card" data-src="images/luvr2.jpg" data-caption="Лувр — другой ракурс">
+      <img src="images/luvr2.jpg" alt="luvr2">
+      <div class="caption">Лувр — другой ракурс</div>
+    </div>
+    <div class="card" data-src="images/most.jpg" data-caption="Мост">
+      <img src="images/most.jpg" alt="most">
+      <div class="caption">Мост</div>
+    </div>
+    <div class="card" data-src="images/NotrDam.jpg" data-caption="Нотр-Дам">
+      <img src="images/NotrDam.jpg" alt="NotrDam">
+      <div class="caption">Нотр-Дам</div>
+    </div>
+    <div class="card" data-src="images/ParisNochy.jpg" data-caption="Париж ночью">
+      <img src="images/ParisNochy.jpg" alt="ParisNochy">
+      <div class="caption">Париж ночью</div>
+    </div>
+    <div class="card" data-src="images/ulicha.jpg" data-caption="Улица">
+      <img src="images/ulicha.jpg" alt="ulicha">
+      <div class="caption">Улица</div>
+    </div>
+    <div class="card" data-src="images/ulicha2.jpg" data-caption="Улица 2">
+      <img src="images/ulicha2.jpg" alt="ulicha2">
+      <div class="caption">Улица 2</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div style="max-width:720px;margin:0 auto;color:var(--muted);padding:24px 0;text-align:center">
+  © 2025 Давид Солнцев | Контакт +7 775 761 06 30 | Сделано с ❤️
+  </div>
+</footer>
+
+
+  </div>
+
+  <script>
+    // Навигация — активная ссылка
+    const links = document.querySelectorAll('[data-link]');
+    function setActive(hash) {
+      links.forEach(a =>
+        a.classList.toggle('active', ('#' + (a.getAttribute('href') || '').replace('#','')) === hash)
+      );
+    }
+    window.addEventListener('hashchange', () => setActive(location.hash));
+    links.forEach(a=>a.addEventListener('click', e=>{
+      e.preventDefault();
+      const href = a.getAttribute('href');
+      location.hash = href;
+      setActive(location.hash);
+
+      // Новый код: плавный скролл к секции
+      const target = document.querySelector(href);
+      if (target) {
+        target.scrollIntoView({behavior: 'smooth'});
+      }
+    }));
+
+    setActive(location.hash || '#home');
+
+    // Lightbox
+    document.getElementById('grid').addEventListener('click', e => {
+      const card = e.target.closest('.card');
+      if(!card) return;
+      const src = card.dataset.src;
+      const cap = card.dataset.caption || '';
+      const overlay = document.createElement('div');
+      overlay.className = 'overlay';
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = cap;
+      const meta = document.createElement('div');
+      meta.className = 'meta';
+      meta.textContent = cap;
+      overlay.appendChild(img);
+      overlay.appendChild(meta);
+      overlay.addEventListener('click', () => overlay.remove());
+      document.body.appendChild(overlay);
+
+      // close with ESC
+      const onKey = ev => {
+        if(ev.key === 'Escape') {
+          overlay.remove();
+          window.removeEventListener('keydown', onKey);
+        }
+      };
+      window.addEventListener('keydown', onKey);
+    });
+
+    // If hero video missing — fallback
+    const hero = document.getElementById('heroVideo');
+    hero.addEventListener('error', () => {
+      const sources = hero.querySelectorAll('source');
+      if(sources[0] && sources[0].src.includes('621046540')) {
+        sources[0].src = 'video/istockphoto-1200345678-640_adpp_is.mp4';
+        hero.load();
+        hero.play().catch(()=>{});
+      }
+    });
+  </script>
+
+</body>
+</html>
